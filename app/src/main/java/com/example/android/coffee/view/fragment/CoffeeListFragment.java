@@ -1,5 +1,6 @@
 package com.example.android.coffee.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,12 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.coffee.R;
 import com.example.android.coffee.model.Coffee;
 import com.example.android.coffee.model.CoffeeFac;
+import com.example.android.coffee.view.activity.CoffeeActivity;
 
 import java.util.List;
 
@@ -74,6 +77,12 @@ public class CoffeeListFragment extends Fragment {
             mTitleTextView.setText(mCoffee.getTitle());
             mDateTextView.setText(mCoffee.getDate().toString());
             mKnownCheckBox.setChecked(mCoffee.isKnown());
+            mKnownCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    mCoffee.setKnown(isChecked);
+                }
+            });
         }
 
         @Override
@@ -81,6 +90,10 @@ public class CoffeeListFragment extends Fragment {
             Toast.makeText(getActivity(),
                     mCoffee.getTitle() + " selected!!", Toast.LENGTH_SHORT).show();
 //            mCoffeeRecyclerView.getAdapter().notifyItemMoved(getAdapterPosition(), 0);
+
+//            Intent intent = new Intent(getActivity(), CoffeeActivity.class);
+            Intent intent = CoffeeActivity.newIntent(getActivity(), mCoffee.getId());
+            startActivity(intent);
         }
     }
 

@@ -15,6 +15,10 @@ import android.widget.EditText;
 
 import com.example.android.coffee.R;
 import com.example.android.coffee.model.Coffee;
+import com.example.android.coffee.model.CoffeeFac;
+import com.example.android.coffee.view.activity.CoffeeActivity;
+
+import java.util.UUID;
 
 /**
  * Created by inframincer on 2016-10-15.
@@ -30,7 +34,10 @@ public class CoffeeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCoffee = new Coffee();
+//        mCoffee = new Coffee();
+        UUID coffeeId = (UUID) getActivity().getIntent()
+                .getSerializableExtra(CoffeeActivity.EXTRA_COFFEE_ID);
+        mCoffee = CoffeeFac.get(getActivity()).getCoffee(coffeeId);
     }
 
     @Nullable
@@ -40,6 +47,7 @@ public class CoffeeFragment extends Fragment {
 //        return super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_coffee, container, false);
         mTitleField = (EditText) view.findViewById(R.id.coffee_title);
+        mTitleField.setText(mCoffee.getTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -61,6 +69,7 @@ public class CoffeeFragment extends Fragment {
         mDateButton.setText(mCoffee.getDate().toString());
 
         mKnownCheckBox = (CheckBox) view.findViewById(R.id.coffee_known);
+        mKnownCheckBox.setChecked(mCoffee.isKnown());
         mKnownCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
