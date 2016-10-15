@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.example.android.coffee.R;
 import com.example.android.coffee.model.Coffee;
 import com.example.android.coffee.model.CoffeeFac;
-import com.example.android.coffee.view.activity.CoffeeActivity;
+import com.example.android.coffee.view.activity.CoffeePagerActivity;
 
 import java.util.List;
 
@@ -102,7 +102,8 @@ public class CoffeeListFragment extends Fragment {
 //            mCoffeeRecyclerView.getAdapter().notifyItemMoved(getAdapterPosition(), 0);
 
 //            Intent intent = new Intent(getActivity(), CoffeeActivity.class);
-            Intent intent = CoffeeActivity.newIntent(getActivity(), mCoffee.getId());
+//            Intent intent = CoffeeActivity.newIntent(getActivity(), mCoffee.getId());
+            Intent intent = CoffeePagerActivity.newIntent(getActivity(), mCoffee.getId());
             startActivity(intent);
         }
     }
