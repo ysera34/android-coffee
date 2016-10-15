@@ -24,8 +24,7 @@ import java.util.UUID;
 
 public class CoffeePagerActivity extends AppCompatActivity {
 
-    private static final String EXTRA_COFFEE_ID =
-            "com.example.android.coffee.coffee_id";
+    private static final String EXTRA_COFFEE_ID = "com.example.android.coffee.coffee_id";
 
     private ViewPager mViewPager;
     private List<Coffee> mCoffees;

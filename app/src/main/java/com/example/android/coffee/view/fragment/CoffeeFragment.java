@@ -1,8 +1,11 @@
 package com.example.android.coffee.view.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -17,6 +20,7 @@ import com.example.android.coffee.R;
 import com.example.android.coffee.model.Coffee;
 import com.example.android.coffee.model.CoffeeFac;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -26,6 +30,9 @@ import java.util.UUID;
 public class CoffeeFragment extends Fragment {
 
     private static final String ARG_COFFEE_ID = "coffee_id";
+    private static final String DIALOG_DATE = "DialogDate";
+
+    private static final int REQUEST_DATE = 0;
 
     private Coffee mCoffee;
     private EditText mTitleField;
@@ -78,6 +85,16 @@ public class CoffeeFragment extends Fragment {
 
         mDateButton = (Button) view.findViewById(R.id.coffee_date);
         mDateButton.setText(mCoffee.getDate().toString());
+        mDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getFragmentManager();
+//                DatePickerFragment dialog = new DatePickerFragment();
+                DatePickerFragment dialog = DatePickerFragment.newInstance(mCoffee.getDate());
+                dialog.setTargetFragment(CoffeeFragment.this, REQUEST_DATE);
+                dialog.show(fragmentManager, DIALOG_DATE);
+            }
+        });
 
         mKnownCheckBox = (CheckBox) view.findViewById(R.id.coffee_known);
         mKnownCheckBox.setChecked(mCoffee.isKnown());
@@ -88,5 +105,19 @@ public class CoffeeFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        if (requestCode == REQUEST_DATE) {
+            Date date = (Date) data
+                    .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+            mCoffee.setDate(date);
+            mDateButton.setText(mCoffee.getDate().toString());
+        }
     }
 }

@@ -4,4 +4,6 @@
     <string name="menu_name">menu name</string>
     <string name="menu_description">description flavor</string>
     <string name="coffee_known_label">coffee known</string>
+
+    <string name="date_picker_title">coffee known date</string>
 </resources>
