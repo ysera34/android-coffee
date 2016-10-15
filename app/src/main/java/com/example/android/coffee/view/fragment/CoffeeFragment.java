@@ -8,6 +8,9 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.example.android.coffee.R;
@@ -21,6 +24,8 @@ public class CoffeeFragment extends Fragment {
 
     private Coffee mCoffee;
     private EditText mTitleField;
+    private Button mDateButton;
+    private CheckBox mKnownCheckBox;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +54,17 @@ public class CoffeeFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        mDateButton = (Button) view.findViewById(R.id.coffee_date);
+        mDateButton.setText(mCoffee.getDate().toString());
+
+        mKnownCheckBox = (CheckBox) view.findViewById(R.id.coffee_known);
+        mKnownCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mCoffee.setKnown(isChecked);
             }
         });
         return view;
