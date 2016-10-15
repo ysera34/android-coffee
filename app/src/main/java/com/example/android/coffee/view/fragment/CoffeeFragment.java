@@ -16,7 +16,6 @@ import android.widget.EditText;
 import com.example.android.coffee.R;
 import com.example.android.coffee.model.Coffee;
 import com.example.android.coffee.model.CoffeeFac;
-import com.example.android.coffee.view.activity.CoffeeActivity;
 
 import java.util.UUID;
 
@@ -26,17 +25,29 @@ import java.util.UUID;
 
 public class CoffeeFragment extends Fragment {
 
+    private static final String ARG_COFFEE_ID = "coffee_id";
+
     private Coffee mCoffee;
     private EditText mTitleField;
     private Button mDateButton;
     private CheckBox mKnownCheckBox;
 
+    public static CoffeeFragment newInstance(UUID coffeeId) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_COFFEE_ID, coffeeId);
+
+        CoffeeFragment fragment = new CoffeeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        mCoffee = new Coffee();
-        UUID coffeeId = (UUID) getActivity().getIntent()
-                .getSerializableExtra(CoffeeActivity.EXTRA_COFFEE_ID);
+//        UUID coffeeId = (UUID) getActivity().getIntent()
+//                .getSerializableExtra(CoffeeActivity.EXTRA_COFFEE_ID);
+        UUID coffeeId = (UUID) getArguments().getSerializable(ARG_COFFEE_ID);
         mCoffee = CoffeeFac.get(getActivity()).getCoffee(coffeeId);
     }
 

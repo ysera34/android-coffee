@@ -43,12 +43,22 @@ public class CoffeeListFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
     private void updateUI() {
         CoffeeFac coffeeFac = CoffeeFac.get(getActivity());
         List<Coffee> coffees = coffeeFac.getCoffees();
 
-        mAdapter = new CoffeeAdapter(coffees);
-        mCoffeeRecyclerView.setAdapter(mAdapter);
+        if (mAdapter == null) {
+            mAdapter = new CoffeeAdapter(coffees);
+            mCoffeeRecyclerView.setAdapter(mAdapter);
+        } else {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     private class CoffeeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

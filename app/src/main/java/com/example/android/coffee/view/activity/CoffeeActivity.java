@@ -10,12 +10,14 @@ import java.util.UUID;
 
 public class CoffeeActivity extends SingleFragmentActivity {
 
-    public static final String EXTRA_COFFEE_ID =
+    private static final String EXTRA_COFFEE_ID =
             "com.example.android.coffee.coffee_id";
 
     @Override
     protected Fragment createFragment() {
-        return new CoffeeFragment();
+//        return new CoffeeFragment();
+        UUID coffeeId = (UUID) getIntent().getSerializableExtra(EXTRA_COFFEE_ID);
+        return CoffeeFragment.newInstance(coffeeId);
     }
 
     public static Intent newIntent(Context packageContext, UUID coffeeId) {
